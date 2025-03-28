@@ -4,6 +4,7 @@
 
 from lab_04_1_requests import readbooks, readbook, createbook, updatebook, deletebook
 
+# More Pythonic approach (List Comprehension)
 def average_book_price():
     books = readbooks()  # Get all books from the server
 
@@ -24,3 +25,17 @@ if __name__ == "__main__":
     avg = average_book_price()
     if avg is not None:
         print(f"The average book price is {avg:.2f}")
+
+
+# Simple loop based code
+
+#books = readbooks()
+#total = 0
+#count= 0
+#for book in books:
+    #total += book["price"]
+    #count += 1
+    
+#avg = total/count
+
+#print(f"The average of {count} books is {avg:.2f}")
