@@ -3,7 +3,7 @@
 
 import requests
 import json
-from config import apikeys as cfg
+from mywork.lab_05_03.config import apikeys as cfg
 
 url = "https://api.github.com/repos/Shmoooe/aprivateone"
 apiKey = cfg["githubapi"]

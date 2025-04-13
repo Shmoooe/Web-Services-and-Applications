@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 
 config.py
+__pycache__
+mywork/lab_05_03/__pycache__/config.cpython-312.pyc

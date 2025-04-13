@@ -3,7 +3,7 @@
 
 import requests
 import urllib.parse
-from config import apikeys as cfg
+from mywork.lab_05_03.config import apikeys as cfg
 
 target_url = "https://example.com"
 
