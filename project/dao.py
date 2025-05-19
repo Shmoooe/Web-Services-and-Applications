@@ -1,0 +1,34 @@
+import mysql.connector
+from mysql.connector import pooling
+from spotify_config import config
+
+pool = pooling.MySQLConnectionPool(
+    pool_name= "mypool",
+    pool_size= 5,
+    host= config["db_host"],
+    user= config["db_user"],
+    password= config["db_pass"],
+    database= config["db_name"],
+    autocommit= True
+)
+
+def get_conn():
+    return pool.get_connection()
+
+def init_tables():
+    query= """
+    CREATE TABLE IF NOT EXISTS artists(
+        id          INT             PRIMARY KEY AUTO_INCREMENT
+        name        VARCHAR(80)     NOT NULL,
+        genre       VARCHAR(120),
+        popularity  INT,
+        spotify_id  VARCHAR(100)    UNIQUE
+    );
+    """
+    with get_conn() as cnx, cnx.cursor() as cur: 
+        cur.execute(query)
+
+def all_artists():
+    with get_conn() as cnx, cnx.cursor(dictionary=True) as cur:
+        cur.execute("SELECT * FROM artists")
+        return cur.fetchall()

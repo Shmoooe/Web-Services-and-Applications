@@ -175,4 +175,4 @@ __pycache__
 mywork/lab_05_03/__pycache__/config.cpython-312.pyc
 .vscode
 venv
-requirements.txt
+spotify_config.py
