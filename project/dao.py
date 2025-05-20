@@ -32,3 +32,22 @@ def all_artists():
     with get_conn() as cnx, cnx.cursor(dictionary=True) as cur:
         cur.execute("SELECT * FROM artists")
         return cur.fetchall()
+    
+def find_by_id():
+    with get_conn() as cnx, cnx.cursor(dictionary=True) as cur:
+        cur.execute("SELECT * FROM artists WHERE id = %s")
+        return cur.fetchall()
+    
+def insert_artist(name, genre, popularity, spotify_id):
+    query = """
+    INSERT INTO artists (name, genre, popularity, spotify_id)
+    VALUES (%s, %s, %s, %s)
+    """
+    with get_conn() as cnx, cnx.cursor as cur:
+        cur.execute(query (name, genre, popularity, spotify_id))
+        return cur.lastrowid
+    
+def delete_artist(artist_id):
+    with get_conn() as cnx, cnx.cursor as cur:
+        cur.execute("DELETE FROM artists WHERE id=%s", artist_id)
+        return cur.rowcount
