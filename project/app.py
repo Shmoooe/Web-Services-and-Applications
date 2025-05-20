@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
-
+import dao
+from spotify import search_artist
 app = Flask(__name__)
 
 books = [
