@@ -18,7 +18,7 @@ def get_conn():
 def init_tables():
     query= """
     CREATE TABLE IF NOT EXISTS artists(
-        id          INT             PRIMARY KEY AUTO_INCREMENT
+        id          INT             PRIMARY KEY AUTO_INCREMENT,
         name        VARCHAR(80)     NOT NULL,
         genre       VARCHAR(120),
         popularity  INT,
@@ -33,21 +33,21 @@ def all_artists():
         cur.execute("SELECT * FROM artists")
         return cur.fetchall()
     
-def find_by_id():
+def find_by_id(artist_id):
     with get_conn() as cnx, cnx.cursor(dictionary=True) as cur:
-        cur.execute("SELECT * FROM artists WHERE id = %s")
-        return cur.fetchall()
+        cur.execute("SELECT * FROM artists WHERE id = %s", (artist_id,))
+        return cur.fetchone()
     
 def insert_artist(name, genre, popularity, spotify_id):
     query = """
     INSERT INTO artists (name, genre, popularity, spotify_id)
     VALUES (%s, %s, %s, %s)
     """
-    with get_conn() as cnx, cnx.cursor as cur:
+    with get_conn() as cnx, cnx.cursor() as cur:
         cur.execute(query (name, genre, popularity, spotify_id))
         return cur.lastrowid
     
 def delete_artist(artist_id):
-    with get_conn() as cnx, cnx.cursor as cur:
+    with get_conn() as cnx, cnx.cursor() as cur:
         cur.execute("DELETE FROM artists WHERE id=%s", artist_id)
         return cur.rowcount

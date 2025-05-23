@@ -1,20 +1,30 @@
 from flask import Flask, jsonify, request
 import dao
-from spotify import search_artist
+from spotify import get_access_token
+
 app = Flask(__name__)
 
-books = [
-    {"id": 1, "title": "1984", "author": "George Orwell"},
-    {"id": 2, "title": "To Kill a Mockingbird", "author": "Harper Lee"}
-]
+@app.before_request
+def prepare_db():
+    dao.init_tables()
 
-@app.route("/api/books", methods=["GET"])
-def get_books():
-    return jsonify(books)
+@app.route("/spotify-token")
+def spotify_token():
+    try:
+        token = get_access_token()
+        return jsonify({"access_token": token})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-@app.route("/api/books", methods=["POST"])
-def add_book():
-    data = request.get_json()
+@app.route("/api/artists", methods=["GET"])
+def get_artists():
+    return jsonify(dao.all_artists())
+
+@app.route("/api/artists", methods=["POST"])
+def add_artist():
+    name = request.get_json().get("name")
+    data = search_artist(name)
+    
     new_book = {"id": len(books)+1, "title": data["title"], "author": data["author"]}
     books.append(new_book)
     return jsonify(new_book), 201
