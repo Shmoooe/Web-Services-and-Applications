@@ -15,6 +15,10 @@ def spotify_token():
         return jsonify({"access_token": token})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/api/artists/<int:artist_id>", methods=["GET"])
+def find_by_id():
+    return jsonify(dao.find_by_id)
 
 @app.route("/api/artists", methods=["GET"])
 def get_artists():

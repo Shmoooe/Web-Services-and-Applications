@@ -57,10 +57,10 @@ def insert_artist(name, genre, popularity, spotify_id):
     VALUES (%s, %s, %s, %s)
     """
     with get_conn() as cnx, cnx.cursor() as cur:
-        cur.execute(query (name, genre, popularity, spotify_id))
+        cur.execute(query, (name, genre, popularity, spotify_id))
         return cur.lastrowid
     
 def delete_artist(artist_id):
     with get_conn() as cnx, cnx.cursor() as cur:
-        cur.execute("DELETE FROM artists WHERE id=%s", artist_id)
+        cur.execute("DELETE FROM artists WHERE id=%s", (artist_id,))
         return cur.rowcount
