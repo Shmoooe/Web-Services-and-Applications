@@ -2,6 +2,19 @@ import mysql.connector
 from mysql.connector import pooling
 from spotify_config import config
 
+def create_database():
+    cnx = mysql.connector.connect(
+        host=config["db_host"],
+        user=config["db_user"],
+        password=config["db_pass"]
+    )
+    cur= cnx.cursor()
+    cur.execute(f"CREATE DATABASE IF NOT EXISTS {config['db_name']}")
+    cur.close()
+    cnx.close()
+
+create_database()
+
 pool = pooling.MySQLConnectionPool(
     pool_name= "mypool",
     pool_size= 5,

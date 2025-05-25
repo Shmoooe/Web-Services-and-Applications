@@ -23,17 +23,20 @@ def get_artists():
 @app.route("/api/artists", methods=["POST"])
 def add_artist():
     name = request.get_json().get("name")
-    data = search_artist(name)
+    try:
+        data = search_artist(name)
+        artist_id = dao.insert_artist(data["name"], data["genre"], data["popularity"], data["spotify_id"])
+        return jsonify({"id": artist_id, **data}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
     
-    new_book = {"id": len(books)+1, "title": data["title"], "author": data["author"]}
-    books.append(new_book)
-    return jsonify(new_book), 201
-
-@app.route("/api/books/<int:book_id>", methods=["DELETE"])
-def delete_book(book_id):
-    global books
-    books = [book for book in books if book["id"] != book_id]
-    return jsonify({"message": "Book deleted"})
+@app.route("/api/artists/<int:artist_id>", methods=["DELETE"])
+def delete_artist(artist_id):
+    deleted = dao.delete_artist(artist_id)
+    if deleted:
+        return jsonify({"message": "Artist deleted"})
+    else:
+        return jsonify({"error": "Artist not found"}), 404
 
 if __name__ == "__main__":
     app.run(debug=True)
