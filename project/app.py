@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import dao
-from spotify import get_access_token
+from spotify import get_access_token, search_artist
 
 app = Flask(__name__)
 

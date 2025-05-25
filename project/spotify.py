@@ -26,6 +26,34 @@ def get_access_token():
     json_data = response.json()
     return json_data["access_token"]
 
+def search_artist(name):
+    access_token = get_access_token()
+    headers = {
+        "Authorization": f"Bearer {access_token}"
+    }
+
+    params = {
+        "q": name,
+        "type": "artist",
+        "limit": 1
+    }
+
+    response = requests.get("https://api.spotify.com/v1/search", headers=headers, params=params)
+    response.raise_for_status()
+    data = response.json()
+
+    if data["artists"]["items"]:
+        artist = data["artists"]["items"][0]
+        return {
+            "name": artist["name"],
+            "genre": artist["genres"][0] if artist["genres"] else None,
+            "popularity": artist["popularity"],
+            "spotify_id": artist["id"]
+        }
+    else:
+        raise Exception("No artist found")
+    
+
 if __name__ == "__main__":
     print("Testing get_access_token()")
     token = get_access_token()
