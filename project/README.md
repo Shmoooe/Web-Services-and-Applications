@@ -15,6 +15,23 @@ This repository contains 5 files as follows:
 
 5. [spotify.py](https://github.com/Shmoooe/Web-Services-and-Applications/blob/main/project/spotify.py)
 
+### Spotify API
+This repository accesses a Spotify API to collect music artists data and input it into a database. 
+
+The columns are: 
+
+- id
+
+- genre 
+
+- name 
+
+- popularity
+
+- spotify_id 
+
+
+The ID is the primary key that relates to the database, whilst the spotify_id is collected from Spotify itself. The “popularity” column provides the artist with a value between 1 and 100. 100 being the most popular. Popularity is calculated by a Spotify algorithm which pertains to number of streams an artist has.
 
 ### app.py
 This file contains the Flask app with endpoints for interacting with the API and database through imported functions from dao.py and spotify.py.
